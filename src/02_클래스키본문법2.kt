@@ -3,6 +3,7 @@ package ex2_2
 
 class Car(val name: String, val speed: Int) {
     // 초기화 블록 - 객체가 생성되는 시점에 호출되는 구문
+    //           - 여러 개의 생성자가 있을 경우, 공통 로직을 캡슐화할 수 있다.
     init {
         println("Car 객체 생성")
     }

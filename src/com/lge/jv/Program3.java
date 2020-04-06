@@ -47,3 +47,5 @@ public class Program3 {
         System.out.println(copy);
     }
 }
+
+// https://github.com/imguru/Kotlin_0406
