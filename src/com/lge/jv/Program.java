@@ -41,17 +41,65 @@ class User {
 
 // import ex3.User;
 
-import ex3.User;
+import ex4.User;
 
 public class Program {
     public static void foo() {}
 
     public static void main(String[] args) {
+//        User user = new User("Tom");
+//        user.setName("Bob");
+//        System.out.println(user.getName());
+
         // System.out.println(foo());
 //        User user = new User("Tom", 42);
 //        user.name = "Bob";
 
         // User user = new User("Tom", 42, "Suwon");
-        User user = new User("Tom");
+        // User user = new User("Tom");
     }
 }
+
+
+
+
+
+interface MP3 {
+    void play();
+    void stop();
+
+    // default method / defender method
+    default void playOneMinute() {
+        play();
+        stop();
+    }
+}
+
+class SmartPhone implements MP3 {
+    @Override
+    public void play() {
+    }
+
+    @Override
+    public void stop() {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
