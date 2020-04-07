@@ -18,7 +18,6 @@
 // Kotlin - Extension Function
 package ex11
 
-
 // lastChar(text)
 // => text.lastChar()
 // fun lastChar(text: String): Char = text[text.length - 1]
@@ -114,7 +113,8 @@ fun <T> Collection<T>.xjoinToString(seperator: String,
             result.append(seperator)
         result.append(e)
     }
-    result.append(postfix)s
+
+    result.append(postfix)
     return result.toString()
 }
 

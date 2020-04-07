@@ -3,6 +3,7 @@ package ex3
 // Java: private - default package - protected - public
 // Kotlin: private - internal - protected - public
 //                   같은 모듈   자식 클래스
+//         private >  protected > internal > public
 
 // 1) public class가 기본입니다.
 class Foo

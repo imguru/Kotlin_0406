@@ -65,6 +65,9 @@ fun printArea(width: Int, height: Int) {
     println("Area is $result")
 }
 
+fun String.lastChar(): Char = this[this.length - 1]
+
+
 fun main() {
     printArea(10, 300)
 }
