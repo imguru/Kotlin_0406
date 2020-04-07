@@ -9,11 +9,26 @@ class Button : View() {
     // override fun click() = println("Button clicked")
 }
 
+// String - Immutable Object: 객체가 생성된 이후에 변경되지 않는 객체
+var StringBuilder.lastChar: Char
+    get() = get(length - 1)
+    set(value) = setCharAt(length - 1, value)
+
+// Backing Field가 없는 property에 대해서만 확장을 할 수 있습니다.
+var Button.name: String
+    get() = "MyButton"
+    set(value) {
+        // field = value
+    }
+
+//    get() {
+//        return "MyButton"
+//    }
+
 // 정적 바인딩으로 동작하기 때문에, 참조의 타입에 의해서 호출되는 함수가 결정된다.
 // 동일한 이름의 메소드가 이미 존재할 경우, 확장 함수는 호출되지 않는다.
 fun View.click() = println("View2 clicked")
 // fun click(view: View) = println("View2 clicked")
-
 
 // fun Button.click() = println("Button clicked")
 
@@ -23,15 +38,13 @@ fun View.click() = println("View2 clicked")
 //   (Virtual)
 
 fun main() {
-    val view: View = Button()
+    val view: Button = Button()
     // Upcasting: 자식 클래스의 객체를 부모 타입의 레퍼런스 타입을 통해 암묵적으로 가르킬 수 있다.
     //  is-a: Button is a View
 
     view.click()
+    println(view.name)
 }
-
-
-
 
 
 /*
@@ -52,13 +65,6 @@ fun main() {
     user.foo()
 }
 */
-
-
-
-
-
-
-
 
 
 /*
