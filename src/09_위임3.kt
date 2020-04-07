@@ -119,6 +119,7 @@ fun main() {
     val user = User()
     user.name = "xxxxx"
     println(user.name)
+
 }
 
 
