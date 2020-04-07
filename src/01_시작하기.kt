@@ -33,6 +33,7 @@ fun main(args: Array<String>) {
 //  코틀린 - 전역 함수를 생성가능하다. 별도의 파일에 전역 함수를 모아서 작성하면 됩니다.
 // fun 함수_이름(파라미터_이름 : 파라미터_타입) : 반환_타입
 fun add(a: Int, b: Int): Int {
+    // Objects.kt -> ObjectsKt.foo()
     return a + b
 }
 

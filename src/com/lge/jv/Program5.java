@@ -1,8 +1,12 @@
 package com.lge.jv;
 
+import ex5.SampleKt;
+import kotlin.jvm.functions.Function1;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 // List<Integer> - Mutable
@@ -59,10 +63,24 @@ public class Program5 {
         // 블록의 구현이 한줄인 경우, 생략이 가능하다.
         result = filter(list, integer -> integer % 2 == 0);
 
+        // (Integer) -> boolean
+        // integer -> integer % 2 == 0
+        // Function<Integer, Boolean>: 함수를 참조할 수 있는 타입
+        Function<Integer, Boolean> f = integer -> integer % 2 == 0;
 
         for (Integer e : result)
             System.out.println(e);
 
+        // 코틀린의 전역 함수를 참조할 때는, 파일명Kt.함수이름
+        SampleKt.foo();
+        SampleKt.goo(new Function1<Integer, Boolean>() {
+            @Override
+            public Boolean invoke(Integer integer) {
+                return true;
+            }
+        });
+
+        SampleKt.goo(integer -> true);
     }
 }
 /*

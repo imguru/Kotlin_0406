@@ -5,14 +5,13 @@ package ex3
 //    바이트 코드가 생성되어야 합니다.
 //     => @JvmOverloads
 
-class User(val name: String, val age: Int, val address: String) {
-    // : this(name, age, "") => 위임 생성자
-    constructor(name: String, age: Int) : this(name, age, "")
-    constructor(name: String) : this(name, 0, "")
-}
+//class User(val name: String, val age: Int, val address: String) {
+//    // : this(name, age, "") => 위임 생성자
+//    constructor(name: String, age: Int) : this(name, age, "")
+//    constructor(name: String) : this(name, 0, "")
+//}
 
-/*
+
 class User @JvmOverloads constructor(val name: String,
                                      val age: Int = 42,
                                      val address: String = "Suwon")
-*/

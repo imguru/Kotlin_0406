@@ -1,5 +1,17 @@
+import com.lge.jv.Program5
+
+import java.util.function.Predicate
+//interface Predicate<T> {
+//    fun test(e: T): Boolean
+//}
+
 // 13_고차함수(Higher Order Function)
 // : 함수를 인자로 전달 받거나, 함수를 반환하는 함수
+
+// 활용
+// 1) 다양한 정책에서 동작하는 함수의 코드 중복을 없앨 수 있다.
+//   => 함수의 재사용성 증가
+
 
 // - Collection
 //  Kotlin:  List,         Map,         Set  - Immutable Interface
@@ -71,10 +83,32 @@ fun main() {
     result = filter(list) { it % 2 == 0 }
 
 
+    result = Program5.filter(list, object: Predicate<Int> {
+        override fun test(p0: Int): Boolean = p0 % 2 == 0
+    })
 
+    // SAM(Single Abstract Method) 지원
+    // => 자바의 SAM 인터페이스에 대해서, 람다식을 허용한다.
+    result = Program5.filter(list) { integer: Int ->
+        integer % 2 == 0
+    }
 
+    // 1.4 에서는 SAM 지원이 코틀린 클래스에 대해서 허용될 예정입니다.
+//    result = filter2(list, object : Predicate<Int> {
+//        override fun test(p0: Int): Boolean = p0 % 2 == 0
+//    })
+
+    println(result)
 }
 
+fun filter2(data: List<Int>, predicate: Predicate<Int>): List<Int> {
+    val result = mutableListOf<Int>()
+    for (e in data) {
+        if (predicate.test(e))
+            result.add(e)
+    }
+    return result
+}
 
 // * 변하지 않는 전체 알고리즘에서 변해야 하는 정책은 분리되어야 한다.
 //   => 공통성과 가변성을 분리 설계

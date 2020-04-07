@@ -61,7 +61,7 @@ class User2 {
     // static final String NAME = ""
     // companion object Hello {
     // 아래 같이 사용할 경우, Companion 이라는 이름을 통해 해당 프로퍼티나 메소드를 자바에서 접근 가능하다.
-    companion object {
+    companion object Hello {
         val sName: String = ""
         const val NAME: String = ""
         // val TAG: String = User::class.java.simpleName
@@ -144,8 +144,6 @@ fun main() {
     val person = loadFromMap(Person, json)
     println(person)
 }
-
-
 
 
 
