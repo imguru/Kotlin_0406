@@ -97,6 +97,7 @@ class SList : Iterable<Int> {
 //    이에 필요한 리소스를 관리합니다.
 
 // Rx 장점: 비동기의 흐름을 제어를 쉽게할 수 있는 많은 연산이 제공됩니다.
+//  * 안드로이드 UI의 비동기 처리를 Rx를 통해서 수행하기 위해서는 별도의 라이브러리가 필요합니다. - RxBinding
 
 class SearchActivity3 : AppCompatActivity() {
     val compositeDisposable = CompositeDisposable()
@@ -107,13 +108,12 @@ class SearchActivity3 : AppCompatActivity() {
 
 
         searchButton.setOnClickListener {
-
             githubApi.rxGetGithubUser("aaa").subscribe {
                 githubApi.rxGetGithubUser("bbb").subscribe {
 
                 }
             }
-            
+
             // 2개를 연속으로 호출
             compositeDisposable += githubApi.rxGetGithubUser("imguru")
                 .flatMap { user ->
