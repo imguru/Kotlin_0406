@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.lge.secondapp.model.GithubUser
+import com.lge.secondapp.model.User
 import com.lge.secondapp.net.githubApi
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -22,13 +22,13 @@ class SecondActivity : AppCompatActivity() {
             // Retrofit 의 Callback은 Main Thread에서 수행된다.
             // => UI의 변경 등을 수행해도 된다.
             val call = githubApi.getGithubUser("mabo")
-            call.enqueue(object : Callback<GithubUser> {
-                override fun onFailure(call: Call<GithubUser>, t: Throwable) {
+            call.enqueue(object : Callback<User> {
+                override fun onFailure(call: Call<User>, t: Throwable) {
                 }
 
                 override fun onResponse(
-                    call: Call<GithubUser>,
-                    response: Response<GithubUser>
+                    call: Call<User>,
+                    response: Response<User>
                 ) {
                     if (!response.isSuccessful)
                         return

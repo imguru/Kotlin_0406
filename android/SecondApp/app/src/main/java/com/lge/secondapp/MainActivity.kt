@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.lge.secondapp.model.GithubUser
+import com.lge.secondapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import java.io.IOException
@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getGithubUser(
         username: String,
-        onSuccess: (GithubUser) -> Unit,
+        onSuccess: (User) -> Unit,
         onFailure: ((String) -> Unit)? = null
     ) {
 
@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
             val json = response.body?.string()
 
             val user = json?.let {
-                gson.fromJson(json, GithubUser::class.java)
+                gson.fromJson(json, User::class.java)
             }
 
             if (user == null)
@@ -202,21 +202,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
-/*
-https://api.github.com/users/JakeWharton
-{
-  "login": "JakeWharton",
-  "id": 66577,
-  "avatar_url": "https://avatars0.githubusercontent.com/u/66577?v=4",
-  "name": "Jake Wharton",
-  "company": "Google, Inc.",
-  "blog": "http://jakewharton.com",
-  "location": "Pittsburgh, PA, USA",
-  "created_at": "2009-03-24T16:09:53Z",
-  "updated_at": "2020-04-07T13:27:20Z"
-}
-*/
 
 
 

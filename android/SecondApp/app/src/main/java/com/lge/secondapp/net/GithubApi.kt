@@ -1,6 +1,6 @@
 package com.lge.secondapp.net
 
-import com.lge.secondapp.model.GithubUser
+import com.lge.secondapp.model.User
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -14,10 +14,8 @@ import retrofit2.http.Query
 interface GithubApi {
     // "https://api.github.com /users/$username"
     //  HTTP METHOD: GET, POST, PUT, DELETE, PATCH ....
-
     @GET("/users/{username}")
-    fun getGithubUser(@Path("username") username: String): Call<GithubUser>
-
+    fun getGithubUser(@Path("username") username: String): Call<User>
 
     // https://api.github.com /search/repositories ?q=Kotlin&page=1&per_page=3
     @GET("/search/repositories")
