@@ -29,7 +29,6 @@ interface GithubApi {
         @Query("per_page") perPage: Int = 10
     ): Call<RepoSearchResponse>
 
-
     @GET("/users/{username}")
     fun rxGetGithubUser(@Path("username") username: String): Observable<User>
 
@@ -37,7 +36,7 @@ interface GithubApi {
     fun rxSearchRepo(
         @Query("q") q: String,
         @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 10
+        @Query("per_page") perPage: Int = 20
     ): Observable<RepoSearchResponse>
 }
 

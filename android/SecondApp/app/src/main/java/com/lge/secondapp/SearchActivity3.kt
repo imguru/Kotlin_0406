@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.jakewharton.rxbinding3.view.clicks
+import com.jakewharton.rxbinding3.widget.textChanges
 import com.lge.secondapp.model.User
 import com.lge.secondapp.net.githubApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,6 +14,7 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_search.*
+import java.util.concurrent.TimeUnit
 
 
 // Rx - 비동기를 다루는 기술(Reactive Extension) vs Kotlin Coroutine(1.3)
@@ -101,7 +104,64 @@ class SList : Iterable<Int> {
 
 class SearchActivity3 : AppCompatActivity() {
     val compositeDisposable = CompositeDisposable()
+    val disposeBag = CompositeDisposable()
 
+    val adapter by lazy { SearchRepoAdapter() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_search)
+
+        searchRecyclerView.adapter = adapter
+
+        disposeBag += searchEditText.textChanges()
+            .throttleLast(3, TimeUnit.SECONDS)
+            .filter {
+                it.isNotBlank()
+            }
+            .distinctUntilChanged()
+            .flatMap { text ->
+                githubApi.rxSearchRepo(text.toString())
+            }
+            .map {
+                it.items
+            }
+            .filter {
+                it.isNotEmpty()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy (onNext ={ items ->
+                adapter.items = items
+            }, onError = {
+                // Error 처리
+                // OnErrorNotImplementedException
+                //   - Rx에서 에러 루틴이 존재하지 않는 경우 발생합니다.
+            })
+
+
+        disposeBag += searchButton.clicks()
+            .throttleFirst(3, TimeUnit.SECONDS)
+            .map {
+                searchEditText.text.toString()
+            }
+            .flatMap { text ->
+                githubApi.rxSearchRepo(text)
+            }
+            .map { result ->
+                result.items
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy { items ->
+                adapter.items = items
+            }
+
+//        searchButton.setOnClickListener {
+//
+//        }
+    }
+
+
+    /*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -211,6 +271,8 @@ class SearchActivity3 : AppCompatActivity() {
             }).addTo(compositeDisposable)
          */
     }
+
+    */
 
     override fun onDestroy() {
         // dispose()
