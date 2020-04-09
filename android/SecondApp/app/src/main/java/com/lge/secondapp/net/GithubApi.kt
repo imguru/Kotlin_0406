@@ -1,5 +1,6 @@
 package com.lge.secondapp.net
 
+import com.lge.secondapp.model.RepoSearchResponse
 import com.lge.secondapp.model.User
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -23,7 +24,7 @@ interface GithubApi {
         @Query("q") q: String,
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 10
-    )
+    ) : Call<RepoSearchResponse>
 }
 
 // Java에서는 API 객체를 싱글톤으로 주로 사용했습니다.

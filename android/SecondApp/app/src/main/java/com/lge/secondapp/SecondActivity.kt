@@ -53,26 +53,3 @@ class SecondActivity : AppCompatActivity() {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
