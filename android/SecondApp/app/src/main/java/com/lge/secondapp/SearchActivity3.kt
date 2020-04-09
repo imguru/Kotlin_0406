@@ -1,29 +1,17 @@
 package com.lge.secondapp
 
 import android.os.Bundle
-import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.lge.secondapp.model.Repo
-import com.lge.secondapp.model.RepoSearchResponse
+import com.lge.secondapp.model.User
 import com.lge.secondapp.net.githubApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.item_search_repo.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 // Rx - 비동기를 다루는 기술(Reactive Extension) vs Kotlin Coroutine(1.3)
@@ -108,8 +96,7 @@ class SList : Iterable<Int> {
 //  : Observer가 Observable를 구독할 때 생성되는 객체로, Observable에서 만드는 이벤트 스트림과
 //    이에 필요한 리소스를 관리합니다.
 
-
-// Rx
+// Rx 장점: 비동기의 흐름을 제어를 쉽게할 수 있는 많은 연산이 제공됩니다.
 
 class SearchActivity3 : AppCompatActivity() {
     val compositeDisposable = CompositeDisposable()
@@ -118,25 +105,90 @@ class SearchActivity3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        // RxKotlin
-        compositeDisposable += githubApi.rxGetGithubUser("imguru")
-            .observeOn(AndroidSchedulers.mainThread())  // Observer의 동작 스레
-            .subscribeBy(
-                onNext = { user ->
-                    Log.e("XXX", "user - $user")
-                    Toast.makeText(
-                        this,
-                        "user - ${user.name}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                onError = {
 
-                },
-                onComplete = {
+        searchButton.setOnClickListener {
+
+            githubApi.rxGetGithubUser("aaa").subscribe {
+                githubApi.rxGetGithubUser("bbb").subscribe {
 
                 }
-            )
+            }
+            
+            // 2개를 연속으로 호출
+            compositeDisposable += githubApi.rxGetGithubUser("imguru")
+                .flatMap { user ->
+                    githubApi.rxSearchRepo(user.login)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy { response ->
+                    val items = response.items
+                }
+
+            // 2개의 연산을 합쳐서 한번에 처리하고 싶다.
+            /*
+            Observables.zip(
+                githubApi.rxGetGithubUser("imguru"),
+                githubApi.rxGetGithubUser("Jake"),
+                githubApi.rxGetGithubUser("Jake")
+            ).flatMap { (first, second, third) ->
+                githubApi.rxSearchRepo("${first.login}${second.login}")
+            }.map {
+                it.items
+            }.subscribeBy { items ->
+                // ....
+            }
+            */
+
+            data class R(val a: User, val b: User, val c: User, val d: User)
+
+            Observables.zip(
+                githubApi.rxGetGithubUser("imguru"),
+                githubApi.rxGetGithubUser("Jake"),
+                githubApi.rxGetGithubUser("Jake"),
+                githubApi.rxGetGithubUser("Jake"),
+                { a1, a2, a3, a4 ->
+                    R(a1, a2, a3, a4)
+                }
+            ).flatMap { (first, second, third, fourth) ->
+                githubApi.rxSearchRepo("${first.login}${second.login}")
+            }.map {
+                it.items
+            }.subscribeBy { items ->
+                // ....
+            }
+
+
+        }
+
+        /*
+        searchButton.setOnClickListener {
+            // RxKotlin
+            compositeDisposable += githubApi.rxGetGithubUser("imguru")
+                .map { user -> String
+                    user.login
+                }
+                .filter {
+                    it.length > 5
+                }
+                .observeOn(AndroidSchedulers.mainThread())  // Observer의 동작 스레드
+                .subscribeBy(
+                    onNext = { user ->
+                        Toast.makeText(
+                            this,
+                            "user - ${user}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    onError = {
+
+                    },
+                    onComplete = {
+
+                    }
+                )
+        }
+
+        */
 
         /*
         // RxJava
