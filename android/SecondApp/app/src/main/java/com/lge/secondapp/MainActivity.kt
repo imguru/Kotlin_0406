@@ -209,10 +209,10 @@ class MainActivity : AppCompatActivity() {
 data class GithubUser(
     val login: String,
     val id: Int,
-    val name: String,
-    val location: String,
-    val company: String,
-    val blog: String,
+    val name: String?,
+    val location: String?,
+    val company: String?,
+    val blog: String?,
     @field:SerializedName("avatar_url") val avatarUrl: String,
     @field:SerializedName("created_at") val createdAt: Date,
     @field:SerializedName("updated_at") val updatedAt: Date

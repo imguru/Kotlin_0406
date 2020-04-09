@@ -1,6 +1,7 @@
 package com.lge.secondapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -23,10 +24,9 @@ class SecondActivity : AppCompatActivity() {
 
             // Retrofit 의 Callback은 Main Thread에서 수행된다.
             // => UI의 변경 등을 수행해도 된다.
-            val call = githubApi.getGithubUser("JakeWharton")
+            val call = githubApi.getGithubUser("mabo")
             call.enqueue(object : Callback<GithubUser> {
                 override fun onFailure(call: Call<GithubUser>, t: Throwable) {
-
                 }
 
                 override fun onResponse(
@@ -37,6 +37,7 @@ class SecondActivity : AppCompatActivity() {
                         return
 
                     val user = response.body() ?: return
+                    Log.e("XXX", "user - $user")
 
                     Glide.with(this@SecondActivity)
                         .load(user.avatarUrl)
