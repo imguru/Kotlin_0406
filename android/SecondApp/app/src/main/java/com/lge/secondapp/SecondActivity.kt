@@ -5,15 +5,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.lge.secondapp.model.GithubUser
+import com.lge.secondapp.net.githubApi
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
 
 class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,29 +53,6 @@ class SecondActivity : AppCompatActivity() {
 
     }
 }
-
-// Retrofit
-// 1. API interface 정의
-interface GithubApi {
-    // "https://api.github.com /users/$username"
-    //  HTTP METHOD: GET, POST, PUT, DELETE, PATCH ....
-
-    @GET("/users/{username}")
-    fun getGithubUser(@Path("username") username: String): Call<GithubUser>
-
-}
-
-// Java에서는 API 객체를 싱글톤으로 주로 사용했습니다.
-// 하지만 코틀린에서는 싱글톤 보다는 전역 객체를 통해 처리하는 것이 일반적입니다.
-
-// 2. Retrofit 객체 생성
-val githubApi: GithubApi = Retrofit.Builder().apply {
-
-    baseUrl("https://api.github.com")
-    client(OkHttpClient())
-    addConverterFactory(GsonConverterFactory.create())
-
-}.build().create(GithubApi::class.java)
 
 
 

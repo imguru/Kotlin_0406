@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
+import com.lge.secondapp.model.GithubUser
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import java.io.IOException
-import java.util.*
 
 
 // OkHttp의 Callback을 익명 객체를 통해 사용하는 것이 불편합니다.
@@ -203,20 +202,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
-// JSON => DTO
-//     Gson(Google + JSON) - KVC
-data class GithubUser(
-    val login: String,
-    val id: Int,
-    val name: String?,
-    val location: String?,
-    val company: String?,
-    val blog: String?,
-    @field:SerializedName("avatar_url") val avatarUrl: String,
-    @field:SerializedName("created_at") val createdAt: Date,
-    @field:SerializedName("updated_at") val updatedAt: Date
-)
 
 /*
 https://api.github.com/users/JakeWharton
