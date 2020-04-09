@@ -104,6 +104,7 @@ class SList : Iterable<Int> {
 //    이에 필요한 리소스를 관리합니다.
 
 
+// Rx
 
 class SearchActivity3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,26 +112,29 @@ class SearchActivity3 : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
 
-        /*
-        val slist = SList()
-        slist.pushFront(10)
-        slist.pushFront(20)
-        slist.pushFront(30)
-
-        // val slist = listOf(10, 20, 30)
-
-        for (e in slist)
-            Log.e("XXX", "value - $e")
-
-        */
-        /*
-        val iter = slist.iterator()
-        while (iter.hasNext()) {
-            Log.e("XXX", "value - ${iter.next()}")
-        }
-        */
-
-
-        // Log.e("XXX", "front - ${slist.front()}")
     }
 }
+
+
+
+/*
+       val slist = SList()
+       slist.pushFront(10)
+       slist.pushFront(20)
+       slist.pushFront(30)
+
+       // val slist = listOf(10, 20, 30)
+
+       for (e in slist)
+           Log.e("XXX", "value - $e")
+
+       */
+/*
+val iter = slist.iterator()
+while (iter.hasNext()) {
+    Log.e("XXX", "value - ${iter.next()}")
+}
+*/
+
+
+// Log.e("XXX", "front - ${slist.front()}")

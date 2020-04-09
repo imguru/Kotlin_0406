@@ -54,9 +54,15 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    kapt "android.arch.lifecycle:compiler:1.1.1"
+    kapt 'android.arch.lifecycle:compiler:1.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //--------
+
+    // Rx
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.2'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
+    //---------
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
