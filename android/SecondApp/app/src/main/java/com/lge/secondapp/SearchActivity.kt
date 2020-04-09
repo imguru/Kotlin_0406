@@ -36,7 +36,7 @@ class SearchActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<RepoSearchResponse>, t: Throwable) {
                     Toast.makeText(
                         this@SearchActivity,
-                        "Faield - ${t.localizedMessage}",
+                        "Failed - ${t.localizedMessage}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

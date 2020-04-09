@@ -23,7 +23,7 @@ class SearchActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val adapter = SearchRepoAdapter()
+        val adapter = SearchRepoAdapter2()
         searchRecyclerView.adapter = adapter
 
         searchButton.setOnClickListener {
@@ -35,7 +35,7 @@ class SearchActivity2 : AppCompatActivity() {
                 override fun onFailure(call: Call<RepoSearchResponse>, t: Throwable) {
                     Toast.makeText(
                         this@SearchActivity2,
-                        "Faield - ${t.localizedMessage}",
+                        "Failed - ${t.localizedMessage}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
