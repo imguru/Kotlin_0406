@@ -3,6 +3,7 @@ package com.lge.secondapp
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -35,14 +36,18 @@ class SecondActivity : AppCompatActivity() {
                     if (!response.isSuccessful)
                         return
 
-                    val user = response.body()
-                    user?.let {
-                        Toast.makeText(
-                            this@SecondActivity,
-                            user.name,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    val user = response.body() ?: return
+
+                    Glide.with(this@SecondActivity)
+                        .load(user.avatarUrl)
+                        .into(imageView)
+
+                    Toast.makeText(
+                        this@SecondActivity,
+                        user.name,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
 
                 }
             })
