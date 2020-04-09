@@ -2,10 +2,12 @@ package com.lge.secondapp.net
 
 import com.lge.secondapp.model.RepoSearchResponse
 import com.lge.secondapp.model.User
+import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,6 +28,17 @@ interface GithubApi {
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 10
     ): Call<RepoSearchResponse>
+
+
+    @GET("/users/{username}")
+    fun rxGetGithubUser(@Path("username") username: String): Observable<User>
+
+    @GET("/search/repositories")
+    fun rxSearchRepo(
+        @Query("q") q: String,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 10
+    ): Observable<RepoSearchResponse>
 }
 
 // Java에서는 API 객체를 싱글톤으로 주로 사용했습니다.
@@ -48,6 +61,8 @@ val githubApi: GithubApi = Retrofit.Builder().apply {
     baseUrl("https://api.github.com")
     client(client)
     addConverterFactory(GsonConverterFactory.create())
+
+    addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
 
 }.build().create(GithubApi::class.java)
 

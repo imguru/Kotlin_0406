@@ -14,6 +14,11 @@ import com.bumptech.glide.Glide
 import com.lge.secondapp.model.Repo
 import com.lge.secondapp.model.RepoSearchResponse
 import com.lge.secondapp.net.githubApi
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.item_search_repo.view.*
 import retrofit2.Call
@@ -107,14 +112,63 @@ class SList : Iterable<Int> {
 // Rx
 
 class SearchActivity3 : AppCompatActivity() {
+    val compositeDisposable = CompositeDisposable()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        // RxKotlin
+        compositeDisposable += githubApi.rxGetGithubUser("imguru")
+            .observeOn(AndroidSchedulers.mainThread())  // Observer의 동작 스레
+            .subscribeBy(
+                onNext = { user ->
+                    Log.e("XXX", "user - $user")
+                    Toast.makeText(
+                        this,
+                        "user - ${user.name}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onError = {
 
+                },
+                onComplete = {
+
+                }
+            )
+
+        /*
+        // RxJava
+        githubApi.rxGetGithubUser("imguru")
+            .subscribe({ user ->
+                // onNext
+
+                Toast.makeText(
+                    this,
+                    "user - ${user.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }, {
+                // onError: 오류가 발생하였을 때
+
+            }, {
+                // onComplete: 이벤트 스트림의 끝에 도달했을 때
+
+            }).addTo(compositeDisposable)
+         */
     }
-}
 
+    override fun onDestroy() {
+        // dispose()
+        compositeDisposable.dispose()
+
+
+        super.onDestroy()
+    }
+
+}
 
 
 /*
