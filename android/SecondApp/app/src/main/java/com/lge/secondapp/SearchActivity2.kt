@@ -1,11 +1,13 @@
 package com.lge.secondapp
 
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lge.secondapp.model.Repo
@@ -19,44 +21,53 @@ import retrofit2.Response
 
 
 class SearchActivity2 : AppCompatActivity() {
+    val adapter: SearchRepoAdapter2 by lazy {
+        SearchRepoAdapter2()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val adapter = SearchRepoAdapter2()
         searchRecyclerView.adapter = adapter
+
+        searchEditText.addTextChangedListener { editable ->
+            val text = editable.toString()
+            search(text)
+        }
 
         searchButton.setOnClickListener {
             val text = searchEditText.text.toString()
-            if (text.isBlank())
-                return@setOnClickListener
-
-            githubApi.searchRepo(text).enqueue(object : Callback<RepoSearchResponse> {
-                override fun onFailure(call: Call<RepoSearchResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@SearchActivity2,
-                        "Failed - ${t.localizedMessage}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                override fun onResponse(
-                    call: Call<RepoSearchResponse>,
-                    response: Response<RepoSearchResponse>
-                ) {
-                    if (!response.isSuccessful) {
-                        return
-                    }
-
-                    val items = response.body()?.items ?: emptyList()
-                    adapter.items = items
-                    // adapter.notifyDataSetChanged() // 데이터 업데이트가 필요하다.
-                }
-            })
-
-
+            search(text)
         }
+    }
 
+    private fun search(text: String) {
+        if (text.isBlank())
+            return
+
+        githubApi.searchRepo(text).enqueue(object : Callback<RepoSearchResponse> {
+            override fun onFailure(call: Call<RepoSearchResponse>, t: Throwable) {
+                Toast.makeText(
+                    this@SearchActivity2,
+                    "Failed - ${t.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onResponse(
+                call: Call<RepoSearchResponse>,
+                response: Response<RepoSearchResponse>
+            ) {
+                if (!response.isSuccessful) {
+                    return
+                }
+
+                val items = response.body()?.items ?: emptyList()
+                adapter.items = items
+                // adapter.notifyDataSetChanged() // 데이터 업데이트가 필요하다.
+            }
+        })
     }
 }
 
