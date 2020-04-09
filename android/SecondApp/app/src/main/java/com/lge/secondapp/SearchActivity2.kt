@@ -20,6 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
+
 class SearchActivity2 : AppCompatActivity() {
     val adapter: SearchRepoAdapter2 by lazy {
         SearchRepoAdapter2()
